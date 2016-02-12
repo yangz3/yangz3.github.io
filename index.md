@@ -41,12 +41,12 @@ Linear decision boundary
 
 
 **Generative and discriminative classifiers**
+
 **Uderstand overfit**
 
 Bias: 
 
 Variance:
-
 
 **Perceptron**
 Perceptron uses two steps of computation to classify samples as one of the two labels. First, it does a dot product between linear seperator and input vector. Second it uses a threshold to test if the result from the dot production and output a binary value as the label. Here is an example of a two demension perceptron with a threshold b: Sign(W1*X1 + W2*X2 - b).
@@ -54,9 +54,11 @@ Perceptron uses two steps of computation to classify samples as one of the two l
 Perceptron can be thought of as a single-layer Neural Network.
 
 A perceptron:
+
 ![alt tag](./Machine Learning/5.png)
 
 A Neural Network:
+
 ![alt tag](./Machine Learning/6.png)
 
 **How to train a perceptron**
@@ -66,13 +68,19 @@ What if we have bounch of training data already and want to drain it all at once
 
 **Regression**
 The goal of regression is to find the W (weights) vector to minimize the square error (also called loss function):
+
 ![alt tag](./Machine Learning/7.png)
 
 The way to do it is to use gradient descent:
+
 ![alt tag](./Machine Learning/8.png)
+
 ![alt tag](./Machine Learning/9.png)
+
 ![alt tag](./Machine Learning/10.png)
+
 The Phi() here is called "basis function" to make this rule generalizable to cases where we have X1X2 X1^2 or none linear forms of X such as:
+
 ![alt tag](./Machine Learning/11.png)
  
 
