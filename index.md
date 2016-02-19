@@ -97,32 +97,29 @@ pred = sign(sum((a.*Y)*K_i')); % i is the ith test sampe K_i is K(Xi, X[training
 
 ##Regression
 
-The goal of regression is to find the W (weights) vector to minimize the square error (also called loss function):
+The goal of linear regression is to find the W (weights) vector to minimize the square error (also called loss function). It is mathmatically the same thing with maximizing the likelihood of the conditional likelihood L(w; x,y), which is the probability of y given x, P(y | w, x), assuming that y ∈ R1 that are sampled iid such that yi ∼ N(ωTxi,σ2). The second way is how the logistic regression is trained, so it is in some sense more general between linear regression and logistic regreession.
 
 ![alt tag](./Machine Learning/7.png)
 
-Note that minimizing the square error loss is equivalent to maximizing the log likelihood of P(y | w, x) when we make the following assumption: Assume we have n data points {x1, y1}, . . . , {xn, yn} and x ∈ Rm, y ∈ R1 that are sampled iid such that yi ∼ N(ωTxi,σ^2). Remember that the probability density of the normal distribution is:
+The way to find w that maximize/minimize an particular expression (i.e. loss function, likelihood function) is to use gradient descent. Here is an example of traning logistic regression using gradient descent:
+```
+for k = 1:max_iter
+    [f,g] = fv_grad( w, X, y );
+    w = w + step * g;
+	eps = abs((f - f_prev) / f_prev);
+	    if eps <= stop_criteria
+	        break;
+	    end
+end
+```
 
-![alt tag](./Machine Learning/7_1.png)
-
-where x is y and u is wx in the linear regression case.
-
-The way to do it is to use gradient descent:
-
-![alt tag](./Machine Learning/8.png)
-
-![alt tag](./Machine Learning/9.png)
-
-Note that for the last step, the partial derivative of Sum j from 0 to n of Wj * Phi(Xi) with respect to Wj can be simplified as Phi(Xi) because other terms in the Sum of Wj * Phi(Xi) do not have Wj.
-
-![alt tag](./Machine Learning/10.png)
-
-The Phi() here is called "basis function" to make this rule generalizable to cases where we have X1X2, X1^2 or terms without X or none linear forms of X such as:
-
-![alt tag](./Machine Learning/11.png)
-
-The reason we can apply basis function to the raw sample Xi is because they will not change the solution of weights vector W for the minimum square error loss function.
-
+where fv_grad returns the objective function value f and the gradient g w.r.t w at point w_curr:
+```
+tmp = -log(1+exp(w_curr'*X)) + y.*(w_curr'*X);
+f = -sum(tmp,2); % f is negative log likelihood
+g = (y - 1./(1+exp(-w_curr'*X)))*X'; 
+g = g';
+```
 
 ##MISC
 
