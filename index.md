@@ -1,5 +1,8 @@
-Machine Learning
------------------------
+
+#Machine Learning
+
+##Kernel
+
 **Why Kernel Method is useful?**
 
 Machine learning techniques try to classify samples from different sets by looking for separators in space to separate them. However, in reality, samples cannot always be separable. It is something Kernel could help. Kernels map samples from low dimension to high dimension where the low-dimensional samples can be separated after being mapped to higher dimensional space.
@@ -26,30 +29,10 @@ What are the simple forms of the dot products depends on what kernel we use:
 
 ![alt tag](./Machine Learning/3.png)
 
-**What is linear function**
-A linear function is just multiply between matrixes, the result of which is a polinomial function of degree zero or one. For instance, aX + b but not aX^2 + b. We can see linear function all over the place in machine learning algorithms in the form of WX + b where W is the weights, X is the data, and b is the bias. W and b are trained.
+There is a nice example of applying kernel method to perceptrons. <https://en.wikipedia.org/wiki/Kernel_perceptron>
 
-![alt tag](./Machine Learning/4.png)
-
-**Why linearity is so special**
-
-Linear classifier: 
-
-Linear XX
-
-Linear decision boundary
-
-
-**Generative and discriminative classifiers**
-
-**Uderstand overfit**
-
-Bias: 
-
-Variance:
-
-**Perceptron**
-Perceptron uses two steps of computation to classify samples as one of the two labels. First, it does a dot product between linear seperator and input vector. Second it uses a threshold to test if the result from the dot production and output a binary value as the label. Here is an example of a two demension perceptron with a threshold b: Sign(W1*X1 + W2*X2 - b).
+##Perceptron
+Perceptron uses two steps of computation to classify samples as one of the two labels. First, it does a dot product between linear seperator and input vector. Second it uses a threshold to test if the result from the dot production and output a binary value as the label. Here is an example of a two-demension perceptron with a threshold b: Sign(W1*X1 + W2*X2 - b).
 
 Perceptron can be thought of as a single-layer Neural Network.
 
@@ -57,19 +40,72 @@ A perceptron:
 
 ![alt tag](./Machine Learning/5.png)
 
-A Neural Network:
-
-![alt tag](./Machine Learning/6.png)
-
 **How to train a perceptron**
+
 In the online learning situation, where we get training data sequentially, the misclassified instance will contribute to the seperator by dragging it towards the direction of that misclassified sample a bit. Therefore next time the mistake is less likely to happen by a bit more. 
 
-What if we have bounch of training data already and want to drain it all at once?
+Here is the code:
 
-**Regression**
+```
+%Perceptron algorithm
+%   w0 is the initial weight vector (d * 1)
+%   X is feature values of training examples (d * n)
+%   Y is labels of training examples (1 * n)
+
+for j = 1 : n
+	y_hat(j) = perceptron_pred(w , X(:,j));
+		if(y_hat(j) ~= Y(j))
+				w = w+Y(j)*X(:,j); % drag by adding the misclassified label to the weights vector
+		end
+end
+```
+**How to kernelize a perceptron**
+
+Kernelized perceptron stores a counter vector that keep track of the times Xi is misclassified; and the set of training data as a trained model. The set of training data is stored in the form of a kernel matrix K as a lookup table. The kernel matrix should be constructed such that if X1 ∈ R d×n and X2 ∈ R d×m, then K ∈ R n×m. Note that each element of the K matrix is computed according to the kernel function. The polynomial kernel of degree-3 with an offset of 1 is defined as: 
+
+![alt tag](./Machine Learning/5_1.png)
+
+So if we want to compute k(Xi, Xj), we can simply index K(i,j). Usually one of the X1 or X2 should be training data while the other is testing data. But during the training, we can use traning data as both X1 and X2. In this case, the K matrix is just another form of representing training data. 
+
+Here is the code:
+```
+%Kernel perceptron algorithm
+%   a is the count vector (1 * n)
+%   X is feature values of training examples (d * n)
+%   Y is labels of training examples (1 * n)
+
+for i = 1 : n
+        y_hat(i) = kernel_perceptron_pred(a, Y, K, i);
+        if y_hat(i) ~= Y(i)
+            a(i) = a(i)+1;
+        end
+end
+```
+
+where in kernel_perceptron_pred, we have:
+```
+%PERCEPTRON_PRED: Make prediction using Gram matrix of kernel,
+%				past labels and counts, and index i.
+%   a is counting vector (1 * n)
+%   Y is labels of training examples (1 * n)
+%	K is the Gram matrix such that K(i, j) = Kernel(X_i, X_j) 
+%   i is the index of current observation
+
+K_i = K(i,:);
+pred = sign(sum((a.*Y)*K_i')); % i is the ith test sampe K_i is K(Xi, X[training samples]) 
+```
+
+##Regression
+
 The goal of regression is to find the W (weights) vector to minimize the square error (also called loss function):
 
 ![alt tag](./Machine Learning/7.png)
+
+Note that minimizing the square error loss is equivalent to maximizing the log likelihood of P(y | w, x) when we make the following assumption: Assume we have n data points {x1, y1}, . . . , {xn, yn} and x ∈ Rm, y ∈ R1 that are sampled iid such that yi ∼ N(ωTxi,σ^2). Remember that the probability density of the normal distribution is:
+
+![alt tag](./Machine Learning/7_1.png)
+
+where x is y and u is wx in the linear regression case.
 
 The way to do it is to use gradient descent:
 
@@ -77,24 +113,30 @@ The way to do it is to use gradient descent:
 
 ![alt tag](./Machine Learning/9.png)
 
+Note that for the last step, the partial derivative of Sum j from 0 to n of Wj * Phi(Xi) with respect to Wj can be simplified as Phi(Xi) because other terms in the Sum of Wj * Phi(Xi) do not have Wj.
+
 ![alt tag](./Machine Learning/10.png)
 
-The Phi() here is called "basis function" to make this rule generalizable to cases where we have X1X2 X1^2 or none linear forms of X such as:
+The Phi() here is called "basis function" to make this rule generalizable to cases where we have X1X2, X1^2 or terms without X or none linear forms of X such as:
 
 ![alt tag](./Machine Learning/11.png)
- 
 
-Embedded System
-----
+The reason we can apply basis function to the raw sample Xi is because they will not change the solution of weights vector W for the minimum square error loss function.
 
 
+##MISC
 
-Analog Circuit
-----
-**Good practice for bypass capacitor**
+**What is linear function**
 
+A linear function is just multiply between matrixes, the result of which is a polinomial function of degree zero or one. For instance, aX + b but not aX^2 + b. We can see linear function all over the place in machine learning algorithms in the form of WX + b where W is the weights, X is the data, and b is the bias. W and b are trained.
 
-Kernel
--------
+**Understand overfit**
+
+Bias and Variance are used to evaluate an algorithm (our hypothesis about the data distribution in the dataset):
+
+Bias: How accurate the model is to predict current dataset, when using this algorithm.
+Variance: How various the models are when apply the same algorithm across different datasets.
+
+We see an algorithm with small bias but big variance, and that is overfit.
 
 
