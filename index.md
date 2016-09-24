@@ -356,12 +356,16 @@ their high frequency responses will the same. Effectively, this negates the use 
 Here is a good tutorial of [how to choose bypass fileter](./Analog/bypass_cap.pdf)
 
 ###Reduce EMI Noise on PCB
+SuperSensor pcb digital and analog seperation. Will put more information when I have time.
 
 ###Antenna Impedance Match
+SuperSensor antenna 50 ohm impedance match. Will put more information when I have time.
 
 ### Eagle 
 
 snap-on-grid-sch.ulp
+find.ulp
+zoom_unrounted.ulp
 
 
 ##Others
