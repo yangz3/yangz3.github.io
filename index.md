@@ -281,9 +281,9 @@ Deeplearning abstract useful features from raw images which reduces number of fe
 Here is a nice tutorial with an animation of CNN (<http://cs231n.github.io/convolutional-networks/>)
 
 
-# Deep Learning
+##Deep Learning 
 
-## Neural Network
+###Neural Network
 
 example of 2d matrix convolution: http://www.songho.ca/dsp/convolution/convolution2d_example.html
 
@@ -328,7 +328,7 @@ Here are the following computations:
 
 
 
-#Analog
+##Analog
 
 ###Setup dc bias for aplifier
 Voltage follower biasing compared with voltage divider biasing is more power-efficient, can be used to power many circuits (the same as voltage divider biasing), the affect to other part of the circuit is infinitesimal.
@@ -364,7 +364,7 @@ Here is a good tutorial of [how to choose bypass fileter](./Analog/bypass_cap.pd
 snap-on-grid-sch.ulp
 
 
-#Other
+##Others
 
 ###Kappa statistic
 Classifiers built and evaluated on data sets of different class distributions can be compared more reliably through the kappa statistic. Using kappa statistic, we allow models of different class distributions to be more easily compared.
