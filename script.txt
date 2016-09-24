@@ -1,0 +1,2 @@
+cd Desktop/gitwiki
+grip index.md 
