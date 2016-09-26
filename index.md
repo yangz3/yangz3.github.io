@@ -303,14 +303,14 @@ Why need rectification? It is also for more stable result with invariance. For, 
 Simple fact of convolutional network:
 ![alt tag](./Deep Learning/d4.png)
 
-To train a neural net, we need 1) Loss function 2) A procedure to ompute gradients:
-![alt tag](./Deep Learning/d6.png)
-
-Here is a good online two-layer neural network python implementation that shows 1) the good property of sigmoid 2) reducing error by calculating error-weighted derivatives in the back propagations, and adding them to the weights to update.
+Let's first look at a boolean (i.e., 0, 1) output neural network that shows 1) the good property of sigmoid 2) reducing error by calculating error-weighted derivatives in the back propagations, and adding them to the weights to update.
 
 http://iamtrask.github.io/2015/07/12/basic-python-network/
 
-In the above example the output is binary. However, in a more realistic case where we have multiple labels, we can use softmax regression together with cross-entropy entropy function (loss funtion). Good thing about the softmax regression is it gives us a list of values between 0 and 1 that add up to 1 (probabilities of each label add up to 1). So the output layer is softmax.
+In the above example the output is boolean. However, in a more realistic case where we have multiple labels, we can use softmax regression together with cross-entropy entropy function (loss funtion). 
+
+####Softmax (an output layer representation)
+Good thing about the softmax regression is it gives us a list of values between 0 and 1 that add up to 1 (probabilities of each label add up to 1). So the output layer is softmax.
 https://www.tensorflow.org/versions/master/tutorials/mnist/beginners/index.html
 
 Here is a nice illustration of this architecture:
@@ -320,6 +320,23 @@ where xj (first column) is the pixels of an image, Wi,j is the weight of computi
 
 Here are the following computations:
 ![alt tag](./Deep Learning/d8.png)
+
+Note that there is no activation layer in this example. Usually, there should be an activation layer with sigmoid computation before softmax to 1) normalize the output from wx+b and 2) add nonlinearity to the process. see figure:
+![alt tag](./Deep Learning/d10.png)
+
+####Cross-entropy entropy function (a loss function representation)
+
+It is the same as negative log-likelihood where we try to minimize, or a multi-class classification problem.
+The funtion is:
+![alt tag](./Deep Learning/d9.png)
+Where the y' is the true distribution (the one-hot vector with the digit labels). One-hot means the vector has only one '1' which happens at the correct digit label's position. y is our predicted probability distribution. In some rough sense, the cross-entropy is measuring how inefficient our predictions are for describing the truth. Here are details about cross-entropy: http://colah.github.io/posts/2015-09-Visual-Information/
+
+####Gradient descent algorithm (a procedure to minimize loss)
+Stochastic gradient descent is a stochastic approximation of the gradient descent but requires less training time. From wikipedia: "To economize on the computational cost at every iteration, stochastic gradient descent samples a subset (i.e. dividing the full set of data into minibatches) of summand functions at every step. This is very effective in the case of large-scale machine learning problems." 
+More specifically, we update weights and biases based on the averaged nabla (differentials) computed from *one mini_batch* of the training data set, rather than the entire set of the training data. This increases the number of iterations in one epoch (one epoch is defined as one round of parameter updating where all traning data points are used exactly once.)
+
+
+
 
 
 
