@@ -283,7 +283,7 @@ Here is a nice tutorial with an animation of CNN (<http://cs231n.github.io/convo
 
 ##Deep Learning 
 
-###Neural Network
+### Network
 
 Let's first look at a boolean (i.e., 0, 1) output neural network that shows 1) the good property of sigmoid 2) reducing error by calculating error-weighted derivatives in the back propagations, and adding them to the weights to update.
 
