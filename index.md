@@ -108,7 +108,7 @@ Naive Bayes approach is a generative model since it tells a story of how the dat
 
 ###Regression
 
-The goal of linear regression is to find the W (weights) vector to minimize the square error (also called loss function). It is mathmatically the same thing with maximizing the likelihood of the conditional likelihood L(w; x,y), which is the probability of y given x, P(y | w, x), assuming that y ∈ R1 that are sampled iid such that yi ∼ N(ωTxi,σ2). The second way is how the logistic regression is trained, so it is in some sense more general between linear regression and logistic regreession.
+The goal of linear regression is to find the W (weights) vector to minimize the square error (also called loss function). It is mathmatically the same thing with maximizing the likelihood of the conditional likelihood L(w; x,y), which is the summarization of evidence between data and unknown parameters (w). The second way is also how the logistic regression is trained, so it is in some sense more general between linear regression and logistic regreession.
 
 ![alt tag](./Machine Learning/7.png)
 
@@ -285,24 +285,6 @@ Here is a nice tutorial with an animation of CNN (<http://cs231n.github.io/convo
 
 ###Neural Network
 
-example of 2d matrix convolution: http://www.songho.ca/dsp/convolution/convolution2d_example.html
-
-Convolutional neural networks alternate between convolutional and pooling layer 
-![alt tag](./Deep Learning/d1.png)
-
-Why pooling: 
-1) we cain robustness to extract spatial location of features (i.e. make detection robust to the exact location of the eye (see figure below)):
-![alt tag](./Deep Learning/d2.png)
-
-2) lower the translation variances for more stable result (or introducing invariance):
-![alt tag](./Deep Learning/d3.png)
-
-Why need rectification? It is also for more stable result with invariance. For, eg. gain stability by lossing information such as whether an edge is black-to-white or white-to-black:
-![alt tag](./Deep Learning/d5.png)
-
-Simple fact of convolutional network:
-![alt tag](./Deep Learning/d4.png)
-
 Let's first look at a boolean (i.e., 0, 1) output neural network that shows 1) the good property of sigmoid 2) reducing error by calculating error-weighted derivatives in the back propagations, and adding them to the weights to update.
 
 http://iamtrask.github.io/2015/07/12/basic-python-network/
@@ -335,14 +317,54 @@ Where the y' is the true distribution (the one-hot vector with the digit labels)
 Stochastic gradient descent is a stochastic approximation of the gradient descent but requires less training time. From wikipedia: "To economize on the computational cost at every iteration, stochastic gradient descent samples a subset (i.e. dividing the full set of data into minibatches) of summand functions at every step. This is very effective in the case of large-scale machine learning problems." 
 More specifically, we update weights and biases based on the averaged nabla (differentials) computed from *one mini_batch* of the training data set, rather than the entire set of the training data. This increases the number of iterations in one epoch (one epoch is defined as one round of parameter updating where all traning data points are used exactly once.)
 
+###Convolutional Neural Network
+
+The only difference between a CNN and a normal Neural Network are the convolutional and pooling layers.
+
+example of 2d matrix convolution: http://www.songho.ca/dsp/convolution/convolution2d_example.html
+
+Convolutional neural networks alternate between convolutional and pooling layer 
+![alt tag](./Deep Learning/d1.png)
+
+Why pooling: 
+1) we cain robustness to extract spatial location of features (i.e. make detection robust to the exact location of the eye (see figure below)):
+![alt tag](./Deep Learning/d2.png)
+
+2) lower the translation variances for more stable result (or introducing invariance):
+![alt tag](./Deep Learning/d3.png)
+
+Why need rectification? It is also for more stable result with invariance. For, eg. gain stability by lossing information such as whether an edge is black-to-white or white-to-black:
+![alt tag](./Deep Learning/d5.png)
+
+Simple fact of convolutional network:
+![alt tag](./Deep Learning/d4.png)
 
 
+Dropout, Momentum and Batch Normalization have significant improvement on CNN.
+
+Breakthrough work using DCNN on image classification: https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf
+
+Based on the experiment on AlexNet, the depth of the DCNN is the key to achieve high accuracies.
 
 
+### Restricted Boltzmann Machine
+This network for unsupervised learning and is good for abstracting underlying structure/relationship of the input. Its two layer, visible and hidden layer are usually used for the first layer of a neural network in the pretraining process. As the same as other machine learning models, RBM uses gradient descent to minimize the loss function, which in this case is the negative log-likelihood. By utilizing the "energy function" borrowed from physics, the data negative log-likelihood gradient then can be expressed as a particularly interesting form:
 
+![alt tag](./Deep Learning/d11.png)
 
+Notice that the above gradient contains two terms, which are referred to as the positive and negative phase. The terms positive and negative do not refer to the sign of each term in the equation, but rather reflect their effect on the probability density defined by the model. The first term increases the probability of training data (by reducing the corresponding free energy), while the second term decreases the probability of samples generated by the model (see the figure below). (This is borrowed from online tutorial: http://deeplearning.net/tutorial/rbm.html#contrastive-divergence-cd-k)
 
+![alt tag](./Deep Learning/d12.png)
 
+To approximate the loss function (negative log-likelihood), we use Contrastive Divergence (CD) with Gibbs Sampling (k steps), usually denoted as CD-k. 
+
+![alt tag](./Deep Learning/d14.png)
+![alt tag](./Deep Learning/d13.png)
+
+#### Gibbs Sampling
+Gibbs sampling is applicable when the joint distribution is not known explicitly or is difficult to sample from directly, but the conditional distribution of each variable is known and is easy (or at least, easier) to sample from. The Gibbs sampling algorithm generates an instance from the distribution of each variable in turn, conditional on the current values of the other variables. It can be shown (see, for example, Gelman et al. 1995) that the sequence of samples constitutes a Markov chain, and the stationary distribution of that Markov chain is just the sought-after joint distribution.
+
+![alt tag](./Deep Learning/d15.png)
 
 
 ##Analog
