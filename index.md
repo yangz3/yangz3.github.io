@@ -67,7 +67,7 @@ Kernelized perceptron stores a counter vector that keep track of the times Xi is
 
 ![alt tag](./Machine Learning/5_1.png)
 
-So if we want to compute k(Xi, Xj), we can simply index K(i,j). Usually one of the X1 or X2 should be training data while the other is testing data. But during the training, we can use traning data as both X1 and X2. In this case, the K matrix is just another form of representing training data. 
+So if we want to compute k(Xi, Xj), we can simply index K(i,j). Usually one of the X1 or X2 should be training data while the other is testing data. But during the training, we can use training data as both X1 and X2. In this case, the K matrix is just another form of representing training data. 
 
 Here is the code:
 ```
@@ -112,7 +112,7 @@ The goal of linear regression is to find the W (weights) vector to minimize the 
 
 ![alt tag](./Machine Learning/7.png)
 
-The way to find w that maximize/minimize an particular expression (i.e. loss function, likelihood function) is to use gradient descent. Here is an example of traning logistic regression using gradient descent:
+The way to find w that maximize/minimize an particular expression (i.e. loss function, likelihood function) is to use gradient descent. Here is an example of training logistic regression using gradient descent:
 ```
 for k = 1:max_iter
     [f,g] = fv_grad( w, X, y );
@@ -176,7 +176,7 @@ Note that rules are different from features.
 Sample complexity guarantees quantify how many training samples we need to see from the underlying data distribution D, inorder to guarantee that for all hypotheses in the class of target function we have their true error closer to their training error. This is important because we can only optimize for the training error but it is the generalization error (true error, the error if we apply the trained model to future data) that we really care about. The PAC and sample complexity also tells us how much data we need in order to get training error close to the generalization error with high probability:
 ![alt tag](./Machine Learning/18.png)
 
-Sample complexity of a machine learning algorithm is the number of training samples needed for the algorithm to successfully learn a target function with small error of both traning error and true error.
+Sample complexity of a machine learning algorithm is the number of training samples needed for the algorithm to successfully learn a target function with small error of both training error and true error.
 ![alt tag](./Machine Learning/19.png)
 
 VC-Dimension provides a measure of the complexity of a "hypothesis space" which is your hypothesis of the data distributtion in the problem you want to solve. VC bounds are one kind of sample complexity guarantee, where the bound depends on the VC-dimension of the hypothesis class and they are particularly useful when the class of functions is infinite. 
@@ -315,7 +315,7 @@ Where the y' is the true distribution (the one-hot vector with the digit labels)
 
 ####Gradient descent algorithm (a procedure to minimize loss)
 Stochastic gradient descent is a stochastic approximation of the gradient descent but requires less training time. From wikipedia: "To economize on the computational cost at every iteration, stochastic gradient descent samples a subset (i.e. dividing the full set of data into minibatches) of summand functions at every step. This is very effective in the case of large-scale machine learning problems." 
-More specifically, we update weights and biases based on the averaged nabla (differentials) computed from *one mini_batch* of the training data set, rather than the entire set of the training data. This increases the number of iterations in one epoch (one epoch is defined as one round of parameter updating where all traning data points are used exactly once.)
+More specifically, we update weights and biases based on the averaged nabla (differentials) computed from *one mini_batch* of the training data set, rather than the entire set of the training data. This increases the number of iterations in one epoch (one epoch is defined as one round of parameter updating where all training data points are used exactly once.)
 
 ###Convolutional Neural Network
 
@@ -348,7 +348,9 @@ Based on the experiment on AlexNet, the depth of the DCNN is the key to achieve 
 
 
 ### Restricted Boltzmann Machine
-This network for unsupervised learning and is good for abstracting underlying structure/relationship of the input. Its two layer, visible and hidden layer are usually used for the first layer of a neural network in the pretraining process. As the same as other machine learning models, RBM uses gradient descent to minimize the loss function, which in this case is the negative log-likelihood. By utilizing the "energy function" borrowed from physics, the data negative log-likelihood gradient then can be expressed as a particularly interesting form:
+This network for unsupervised learning and is good for abstracting underlying structure/relationship, or in other word finding patterns of the input. Finding this low-dimensional representation of the input is useful to remove the redundancy and overfitting of the input data. Therefore its hidden layer is usually used for features for other machine learning algorithms. Using the hidden layer from RBM instead of using raw pixels/signals as features makes the classifier more robust to subtal pixel/signal shifting or rotations, which are usually invisible to human eyes but can hurt machine learning models significantly. This process is so called "Pretraining". 
+
+As the same as other machine learning models, RBM uses gradient descent to minimize the loss function, which in this case is the negative log-likelihood. By utilizing the "energy function" borrowed from physics, the data negative log-likelihood gradient then can be expressed as a particularly interesting form:
 
 ![alt tag](./Deep Learning/d11.png)
 
@@ -365,6 +367,96 @@ To approximate the loss function (negative log-likelihood), we use Contrastive D
 Gibbs sampling is applicable when the joint distribution is not known explicitly or is difficult to sample from directly, but the conditional distribution of each variable is known and is easy (or at least, easier) to sample from. The Gibbs sampling algorithm generates an instance from the distribution of each variable in turn, conditional on the current values of the other variables. It can be shown (see, for example, Gelman et al. 1995) that the sequence of samples constitutes a Markov chain, and the stationary distribution of that Markov chain is just the sought-after joint distribution.
 
 ![alt tag](./Deep Learning/d15.png)
+
+A comprehensive RBM implementation can be found here: https://github.com/yusugomori/DeepLearning/blob/master/python/RBM.py
+
+### Sparse Coding 
+Sparse coding can be used to extract features:
+
+http://ufldl.stanford.edu/wiki/index.php/Sparse_Coding
+
+ZCA preprocessing is usually used to pre-process the data to remove the "obvious" structure from the data that might pollute the learning result. After ZCA normalization, the mean is 0 and covariance is the identity (so called whitening in CV).
+
+## TensorFlow
+TensorFlow is a Deep Learning library developed by Google. To setup TensorFlow: https://www.tensorflow.org
+
+In the demo code below, a convolutional network with two hidden layers is used to train the MNIST dataset. In TensorFlow some basic data structures are used such as session, placeholder, and tensor. Session is a lot like a function, which defines a sequence of operations inside it. We can pass variables to a session using feed_dict(arg1:value1, arg2:value2, ...). placeholders defined in the session are the arguments to which we will need to pass values during the training. Some common placeholders are training data, training labels, and dropout rate. Tensor is a unique data typed defined in TensorFlow, which basically is a nd array.
+
+TensorFlow provides some useful tools to handle data, such as queue and coordinators. They are useful for getting training instances out of the dataset. 
+
+```
+with tf.Session() as sess:
+
+  x = tf.placeholder("float", shape=[None, 784])
+  y_ = tf.placeholder("float", shape=[None, 10])
+
+  W_conv1 = weight_variable([5, 5, 1, 32])
+  b_conv1 = bias_variable([32])
+  x_image = tf.reshape(x, [-1,28,28,1])
+  h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
+
+  h_pool1 = max_pool_2x2(h_conv1)
+
+  W_conv2 = weight_variable([5, 5, 32, 64])
+  b_conv2 = bias_variable([64])
+  h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
+
+  h_pool2 = max_pool_2x2(h_conv2)
+
+  W_fc1 = weight_variable([7 * 7 * 64, 1024])
+  b_fc1 = bias_variable([1024])
+  h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
+  h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
+
+  keep_prob = tf.placeholder("float")
+  h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
+
+  W_fc2 = weight_variable([1024, 10])
+  b_fc2 = bias_variable([10])
+  y_conv=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
+
+  cross_entropy = -tf.reduce_sum(y_*tf.log(y_conv))
+
+  train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+
+  correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
+  accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+
+  sess.run(tf.initialize_all_variables())
+
+  coord = tf.train.Coordinator()
+  threads = tf.train.start_queue_runners(coord=coord)
+
+  for i in range(20000):
+
+    # actual training 
+    train_image_batch = tf.to_float(train_image_batch)
+    
+    tx,ty = sess.run([train_image_batch, train_label_batch])
+    
+    tx = tx/255. # input has to be normalized to 0 - 1 
+
+    train_step.run(feed_dict={x: tx, y_: ty, keep_prob: 0.5})
+
+    # probe the training accuracy
+    if i%100 == 0:
+      train_accuracy = accuracy.eval(feed_dict={
+          x:tx, y_: ty, keep_prob: 1.0})
+      print "step %d, training accuracy %g"%(i, train_accuracy)
+
+    if i%100 == 0: # probe the validation accuracy
+      test_image_batch = tf.to_float(test_image_batch)
+      vx,vy = sess.run([test_image_batch, test_label_batch])
+      vx = vx/255.0
+      
+      test_accuracy = accuracy.eval(feed_dict = {x:vx, y_:vy, keep_prob:1.})
+      print "step %d, validation accuracy %g" % (i, test_accuracy)
+      
+       
+  coord.request_stop()
+  coord.join(threads)
+  sess.close()
+```
 
 
 ##Analog
