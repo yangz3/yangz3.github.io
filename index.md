@@ -498,11 +498,77 @@ snap-on-grid-sch.ulp
 find.ulp
 zoom_unrounted.ulp
 
-
 ##Others
 
 ###Kappa statistic
 Classifiers built and evaluated on data sets of different class distributions can be compared more reliably through the kappa statistic. Using kappa statistic, we allow models of different class distributions to be more easily compared.
 <http://stats.stackexchange.com/questions/82162/kappa-statistic-in-plain-english>
 
+###Python
+####Generators 
+Generator in python returns an iterator which returned results follow the order of the "yield" statement in the generator function. For example:
+
+```
+import random
+def lottery():
+    for i in xrange(6):
+        yield 1
+    yield 2
+for random_number in lottery():
+    print "And the next number is... %d" % random_number
+```
+
+#### List comprehension 
+Useful trick to create a list out of another list:
+```
+sentence = "the quick brown fox jumps over the lazy dog"
+words = sentence.split()
+lenList = [len(word) for word in words if word != "the"]
+print lenList
+```
+
+#### Multiple function argument
+**options in the following code means we are gonna send functions arguments by keyword. So the order does not matter.
+
+```
+def bar(first,second,thuid, **options):
+    if options.get("action") == "sum":
+        return first+second+third
+    if options.get("action") == "first":
+        return first
+
+print bar(1,2,3,action = "first")
+```
+
+#### Serialization
+Serialization is the process of turning an object in memory into a stream of bytes so you can do stuff like store it on disk or send it over the network. Pickle module offers a powerful serialization/deserializaiton tool for python objects.
+
+```
+import pickle
+a = {'hello': 'world'}
+with open('filename.pickle', 'wb') as handle:
+  pickle.dump(a, handle)
+with open('filename.pickle', 'rb') as handle:
+  b = pickle.load(handle)
+```
+
+#### Code introspection
+Introspection is an act of self examination. In computer programming, introspection is the ability to determine the type of an object at runtime.
+
+The dir() function returns a sorted list of attributes and methods belonging to an object.
+The type() function returns the type of an object.
+More of these functions can be found in http://zetcode.com/lang/python/introspection/
+
+
+#### Numpy array index trick
+Use comparison between two numpy arrays to gemerate an index.
+
+```
+import numpy as np
+a = np.random.rand(10)
+b = np.ones(10) - 0.5
+c = np.zeros(10)
+c[b>a] = 1
+print c
+```
 
