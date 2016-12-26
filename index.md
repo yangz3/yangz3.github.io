@@ -504,6 +504,48 @@ zoom_unrounted.ulp
 Classifiers built and evaluated on data sets of different class distributions can be compared more reliably through the kappa statistic. Using kappa statistic, we allow models of different class distributions to be more easily compared.
 <http://stats.stackexchange.com/questions/82162/kappa-statistic-in-plain-english>
 
+
+### Java
+####Interface VS. Abstract Classes
+```
+public class Main extends animal implements livingthingsA, livingthingsB{ // a class can extend only one abstract class while it can implement multiple interfaces
+	int value;
+	
+	public Main(int v){
+		this.value = v;
+	}
+
+	@Override
+	public int eat(int a) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void breath() {
+		// TODO Auto-generated method stub
+		
+	}
+}
+
+abstract class animal{
+	public void fart(){ // abstract class can define concrete method 
+		System.out.println("fart");
+	}
+	abstract public int eat(int a); // and abstract method
+}
+
+interface livingthingsA {
+	abstract public void breath(); // interface can only define abstract method
+}
+
+interface livingthingsB {
+	abstract public void breath(); 
+}
+```
+
+
+
 ###Python
 ####Generators 
 Generator in python returns an iterator which returned results follow the order of the "yield" statement in the generator function. For example:
