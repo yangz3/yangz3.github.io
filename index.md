@@ -507,6 +507,8 @@ Classifiers built and evaluated on data sets of different class distributions ca
 
 ### Java
 ####Interface VS. Abstract Classes
+Key differences are 1) a class can extend only one abstract class while it can implement multiple interfaces, and 2) abstract class can define concrete method while interface can only define abstract method.
+
 ```
 public class Main extends animal implements livingthingsA, livingthingsB{ // a class can extend only one abstract class while it can implement multiple interfaces
 	int value;
