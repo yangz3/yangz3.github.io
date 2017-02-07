@@ -197,6 +197,9 @@ As we can tell, this method relys on how many clusters we assume and where the i
 
 Intuitively we want each center to locate on each clusters with no multiple centers sharing the same cluster. For picking the initial locations of the centers, we can do it randomly or we can do k-means++ initialization approach where the initial centers are more likely to be one center per cluster.
 
+A nice demostration borrowed from Wikipedia: 
+![alt tag](./Machine Learning/22_1.png)
+
 ### Bayesian Network
 Bayes Network is a graphical model that represents a set of random variables and their conditional dependencies via a directed acyclic graph. D-seperation is a useful tool to decide wether two nodes or two groups of nodes are conditional dependent, conditioning on another node or another group of nodes.
 
@@ -458,6 +461,23 @@ with tf.Session() as sess:
   sess.close()
 ```
 
+## Computer Vision
+
+###Filtering technique
+Filtering is a technique for modifying or enhancing an image. For example, you can filter an image to emphasize certain features or remove other features:
+
+###Convolution VS. Correlation
+Convolution rotate the filter by 180 degree before correlating the image and the filter. Nice tutorial: http://www.mathworks.com/help/images/what-is-image-filtering-in-the-spatial-domain.html
+
+### LAB color space
+Unlike the RGB and CMYK color models, Lab color is designed to approximate human vision: https://en.wikipedia.org/wiki/Lab_color_space#Advantages
+
+### Bag of Words
+
+![alt tag](./CV/1.png)
+In this traditional image labeling tasks, two steps are used -- building the dictionary and represent images as histograms of visual words and compare images. The first step can be thought of as the feature abstraction, which is common in many ML procedures (e.g., restricted boltzmann machine). The reason for using visual words instead of raw filter response as feature vocabulary is to save memory space and prevent overfitting. Note that visual words are the cluster centers of the joint distribution of all filter responses.
+
+In machine learning, featurization is important since it directly provides inputs based on which statistic models are able to produce prediction. It is thus important to define the feature space, in other word, the vocabulary of how the machine learning pipeline describe things. In the bag of word problems, feature vocabulary is the visual words, which are cluster centers of the filter response. In comparison, deeplearning’s vocabulary are much more expressive since the combinatory between layers can result in many many features. That is why deeplearning is more accurate in many CV tasks. However, DL is also easier to overfit if the input data is small. 
 
 ##Analog
 
