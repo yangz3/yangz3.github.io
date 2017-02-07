@@ -636,3 +636,10 @@ c[b>a] = 1
 print c
 ```
 
+### Git
+#### SSH
+Setup ssh on a laptop: https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+
+How SSH works:
+
+The SSH protocol employs a client-server model to authenticate two parties and encrypt the data between them using symmetric, asymmetric encryption and hashes. A nice tutorial can be found: https://www.digitalocean.com/community/tutorials/understanding-the-ssh-encryption-and-connection-process#symmetric-encryption,-asymmetric-encryption,-and-hashes
