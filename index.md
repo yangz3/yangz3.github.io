@@ -475,9 +475,37 @@ Unlike the RGB and CMYK color models, Lab color is designed to approximate human
 ### Bag of Words
 
 ![alt tag](./CV/1.png)
+
 In this traditional image labeling tasks, two steps are used -- building the dictionary and represent images as histograms of visual words and compare images. The first step can be thought of as the feature abstraction, which is common in many ML procedures (e.g., restricted boltzmann machine). The reason for using visual words instead of raw filter response as feature vocabulary is to save memory space and prevent overfitting. Note that visual words are the cluster centers of the joint distribution of all filter responses.
 
 In machine learning, featurization is important since it directly provides inputs based on which statistic models are able to produce prediction. It is thus important to define the feature space, in other word, the vocabulary of how the machine learning pipeline describe things. In the bag of word problems, feature vocabulary is the visual words, which are cluster centers of the filter response. In comparison, deeplearning’s vocabulary are much more expressive since the combinatory between layers can result in many many features. That is why deeplearning is more accurate in many CV tasks. However, DL is also easier to overfit if the input data is small. 
+
+
+### The histogram intersection algorithm
+
+The histogram intersection algorithm is useful to compute the similarity between two histograms. It works specially good in image processing tasks such as bag of words, where each bar in the histogram represents a signature of a region in the image. The algorithm simply sum up Min(Ii, Mi) to get the similarity. The logic behind this algorithm is that Min(Ii, Mi) represent how many signatures are *shared* between two histograms (two regions in the two images). 
+
+I nice tutorial that uses this algorithm: https://mpatacchiola.github.io/blog/2016/11/12/the-simplest-classifier-histogram-intersection.html
+
+
+### Interesting Points
+
+The goal to find interest points in images is to use them as anchors for matching images. The intuition behind the interest point is that those points should change significantly when camera moves, and *only* change significantly when camera moves. For example, in the following image, only the corners are easy to match since a moving window on a same image will see significant changes in all directions (see the image below).
+
+![alt tag](./CV/2.png)
+
+![alt tag](./CV/3.png)
+
+
+ Once we have extracted the interest points, we can use feature descriptors to match them (find correspondences) between images to do interesting things like panorama stitching or scene reconstruction. Define cornerness is the key to find interesting points.
+
+
+
+### Scale-invariant feature transform (SIFT)
+Not discriptor (not scale-invariant) but rather interest point detector.
+
+ 
+
 
 ##Analog
 
@@ -523,6 +551,18 @@ zoom_unrounted.ulp
 ###Kappa statistic
 Classifiers built and evaluated on data sets of different class distributions can be compared more reliably through the kappa statistic. Using kappa statistic, we allow models of different class distributions to be more easily compared.
 <http://stats.stackexchange.com/questions/82162/kappa-statistic-in-plain-english>
+
+
+### Gauss-Newton Method
+For optimization, Gauss-Newton Method is used to solve the non-linear least square problem:
+
+![alt tag](./Others/1.png)
+
+Given m functions r = (r1, …, rm) (often called residuals) of n variables β = (β1, …, βn), with m ≥ n, the Gauss–Newton algorithm iteratively finds the value of the variables which minimizes the sum of squares:
+
+![alt tag](./Others/2.png)
+
+There is also single-step GN method which leverage Bayes Maximum a Posteriori to get a close-form solution.
 
 
 ### Java
