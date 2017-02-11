@@ -488,7 +488,7 @@ The histogram intersection algorithm is useful to compute the similarity between
 I nice tutorial that uses this algorithm: https://mpatacchiola.github.io/blog/2016/11/12/the-simplest-classifier-histogram-intersection.html
 
 
-### Interesting Points
+### Interest Points
 
 The goal to find interest points in images is to use them as anchors for matching images. The intuition behind the interest point is that those points should change significantly when camera moves, and *only* change significantly when camera moves. For example, in the following image, only the corners are easy to match since a moving window on a same image will see significant changes in all directions (see the image below).
 
@@ -499,6 +499,27 @@ The goal to find interest points in images is to use them as anchors for matchin
 
  Once we have extracted the interest points, we can use feature descriptors to match them (find correspondences) between images to do interesting things like panorama stitching or scene reconstruction. Define cornerness is the key to find interesting points.
 
+Interest points are found by using the Difference of Gaussian (DoG) detector. This detector find points that are extrema in both scale and space of a DoG pyramid. A DoG pyramid is obtained by substracting successive levels of the Gaussian pyramid. The Difference of Gaussian function responds strongly on corners and edges in addition to blob-like objects. One example of Gaussian pyramid and DoG pyramid is shown below:
+
+![alt tag](./CV/4.png)
+
+However, edges are not desirable for feature extraction as they are not as distinctive and do not provide a substantially stable localization for keypoints. So after DoG, we have to remove the edge by the principal curvature ratio in a local neighborhood of a point. Basically edge points wil have a large principle curvature  across the edge but a small one in the perpendicular direction (so the ratio must be bigger than non-edge points). Then we can set a threshold on the ratio to remove the edge points.
+
+We can first compute Hessian of the DoG images and define the curvature ratio R as: 
+
+![alt tag](./CV/5.png)
+
+Hessian is simply Matlab gradient() which compute second derivatives in all directions of a pixel:
+
+![alt tag](./CV/6.png)
+
+Once we removed the edge points from the DoG, we are ready to detect corner-like scale-invariant interest points. Interest points are defined, in algorithm, as local extremas in both scale and space.
+
+
+### Taylor's Theorem 
+We see a lot in ML and CV that people use Taylor's Terorem to get estimation of a form for optimization (since we can ignore higher orders).
+
+Wikipedia: https://en.wikipedia.org/wiki/Taylor%27s_theorem
 
 
 ### Scale-invariant feature transform (SIFT)
