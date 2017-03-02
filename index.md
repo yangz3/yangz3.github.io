@@ -503,7 +503,7 @@ Interest points are found by using the Difference of Gaussian (DoG) detector. Th
 
 ![alt tag](./CV/4.png)
 
-However, edges are not desirable for feature extraction as they are not as distinctive and do not provide a substantially stable localization for keypoints. So after DoG, we have to remove the edge by the principal curvature ratio in a local neighborhood of a point. Basically edge points wil have a large principle curvature  across the edge but a small one in the perpendicular direction (so the ratio must be bigger than non-edge points). Then we can set a threshold on the ratio to remove the edge points.
+However, edges are not desirable for feature extraction as they are not as distinctive and do not provide a substantially stable localization for keypoints. Also, DoG always has higher response for edges. So after DoG, we have to remove the edge by the principal curvature ratio in a local neighborhood of a point. Basically edge points wil have a large principle curvature  across the edge but a small one in the perpendicular direction (so the ratio must be bigger than non-edge points). Then we can set a threshold on the ratio to remove the edge points.
 
 We can first compute Hessian of the DoG images and define the curvature ratio R as: 
 
@@ -513,7 +513,8 @@ Hessian is simply Matlab gradient() which compute second derivatives in all dire
 
 ![alt tag](./CV/6.png)
 
-Once we removed the edge points from the DoG, we are ready to detect corner-like scale-invariant interest points. Interest points are defined, in algorithm, as local extremas in both scale and space.
+Once we removed the edge points from the DoG, we are ready to detect corner-like scale-invariant interest points. Interest points are defined, in algorithm, as local extremas in both scale and space in DoG. Here is a nice documentation about this procedure: http://docs.opencv.org/3.1.0/da/df5/tutorial_py_sift_intro.html
+
 
 
 ### Taylor's Theorem 
@@ -526,7 +527,18 @@ Wikipedia: https://en.wikipedia.org/wiki/Taylor%27s_theorem
 Not discriptor (not scale-invariant) but rather interest point detector.
 
  
+## EIT
+Note I took from Prof. Bill Lionheart's class: https://www.youtube.com/watch?v=lpNXYsj0LEw
 
+![alt tag](./EIT/[Untitled].pdf)
+
+![alt tag](./EIT/[Untitled] 2.pdf)
+
+![alt tag](./EIT/[Untitled] 3.pdf)
+
+![alt tag](./EIT/[Untitled] 4.pdf)
+
+![alt tag](./EIT/[Untitled] 5.pdf)
 
 ##Analog
 
