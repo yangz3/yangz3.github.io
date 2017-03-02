@@ -210,9 +210,7 @@ Given a fixed HMM, i.e., a HMM with fixed parameters, Theta, Theta(start), Theta
 
 ![alt tag](./Machine Learning/23.png)
 
-However, doing the summation naively is intractable. An efficient approach will exploit the HMM structure: given a sequence of observations O1:T, what is the most likely sequence of states S1:T that gave rise to O1:T. This is called MAP or Viterbi decoding and it is written as: 
- 
-![alt tag](./Machine Learning/24.png)
+However, doing the summation naively is intractable. An efficient approach will exploit the HMM structure: given a sequence of observations O1:T, what is the most likely sequence of states S1:T that gave rise to O1:T. This is called MAP or Viterbi decoding.
 
 We can do Viterbi decoding naively which has N to the squre of T time complexity, or we can derive an efficient algo. to do it.
 
