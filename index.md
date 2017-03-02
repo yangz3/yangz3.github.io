@@ -530,15 +530,16 @@ Not discriptor (not scale-invariant) but rather interest point detector.
 ## EIT
 Note I took from Prof. Bill Lionheart's class: https://www.youtube.com/watch?v=lpNXYsj0LEw
 
-![alt tag](./EIT/[Untitled].pdf)
 
-![alt tag](./EIT/[Untitled] 2.pdf)
+![alt tag](./EIT/1.png)
 
-![alt tag](./EIT/[Untitled] 3.pdf)
+![alt tag](./EIT/2.png)
 
-![alt tag](./EIT/[Untitled] 4.pdf)
+![alt tag](./EIT/3.png)
 
-![alt tag](./EIT/[Untitled] 5.pdf)
+![alt tag](./EIT/4.png)
+
+![alt tag](./EIT/5.png)
 
 ##Analog
 
